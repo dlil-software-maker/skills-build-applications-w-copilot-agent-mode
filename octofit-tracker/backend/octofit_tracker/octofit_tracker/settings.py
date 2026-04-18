@@ -26,9 +26,10 @@ SECRET_KEY = 'django-insecure-#(&8k8&4@_ied^_0u7&^rw^nu*0!2c47^s*2bi1-$@#!w$l+2n
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1']
-if os.environ.get('CODESPACE_NAME'):
-    ALLOWED_HOSTS.append(f"{os.environ.get('CODESPACE_NAME')}-8000.app.github.dev")
+ALLOWED_HOSTS = ['*']
+
+CORS_ALLOW_ALL_ORIGINS = True
+CORS_ALLOW_CREDENTIALS = True
 
 
 # Application definition
@@ -47,6 +48,8 @@ INSTALLED_APPS = [
     'allauth.account',
     'allauth.socialaccount',
     'corsheaders',
+    'djongo',
+    'octofit_tracker',
     'dj_rest_auth',
     'dj_rest_auth.registration',
     'users',
