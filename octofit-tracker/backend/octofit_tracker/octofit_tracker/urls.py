@@ -17,6 +17,9 @@ import os
 from django.contrib import admin
 from django.urls import path, include
 from rest_framework import routers
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+from rest_framework.reverse import reverse
 from users.views import ProfileViewSet
 from activities.views import ActivityViewSet
 from teams.views import TeamViewSet
@@ -27,6 +30,16 @@ if codespace_name:
 else:
     base_url = "http://localhost:8000"
 
+
+@api_view(['GET'])
+def api_root(request, format=None):
+    return Response({
+        'profiles': reverse('profile-list', request=request, format=format),
+        'activities': reverse('activity-list', request=request, format=format),
+        'teams': reverse('team-list', request=request, format=format),
+    })
+
+
 router = routers.DefaultRouter()
 router.register(r'profiles', ProfileViewSet)
 router.register(r'activities', ActivityViewSet)
@@ -34,6 +47,7 @@ router.register(r'teams', TeamViewSet)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('api/', api_root, name='api-root'),
     path('api/', include(router.urls)),
     path('api/auth/', include('dj_rest_auth.urls')),
     path('api/auth/registration/', include('dj_rest_auth.registration.urls')),

@@ -10,3 +10,6 @@ class Profile(models.Model):
     weight = models.FloatField(null=True, blank=True)
     height = models.FloatField(null=True, blank=True)
     fitness_goals = models.TextField(blank=True)
+
+    def __str__(self):
+        return f"Profile for {self.user.username}"
